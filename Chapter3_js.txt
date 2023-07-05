@@ -1,0 +1,1670 @@
+Local Storage & Session Storage
+
+Web Storage api is used to store some data into the browser
+it is in the form of key value pairs  which are strings
+
+we have two mechanism to store data -
+1. Session Storage  2. Local Storage
+
+Session Storage- data persist only for a particular session
+as the user comes to a web application, there starts a session
+and data is stored in it, once the user closes the tab 
+session ended
+
+but it is very useful then cookies
+unlike cookies this data is not sent to server while making the 
+network calls
+
+and also session storage data has large capacity
+
+Local Storage - 
+it is same as session storage, but it does not comes with an expiry
+if we close the tab and come again it still persist the data
+
+Local storage has higer memory capacity when compared to session storage
+or cookies
+
+Getting the data from the local storage is very fast compared to
+getting  the data from the network call
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Procedural Paradigm  -
+we write code in single line from top to bottom
+and we have to take care of procedure , how to do 
+
+
+
+OOPS Paradigm -
+we break our programs in objects and classes
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Functional Programming - 
+Imperative and >>declarative<< code writing  we have to do
+##############################
+ // Imperative way
+ 
+ const  x = 5;
+ const xSq = x*x;
+ let  isEven
+
+ if(xSq %2 === 0){
+    isEven = true;
+ }
+ else {
+    isEven = false;
+ }
+console.log(isEven)
+
+ //Declarative way
+
+ const isXSquareEven = (x)=> (x*x) % 2 === 0 ? true: false;
+ console.log(isXSquareEven(4))
+
+#############################
+so in functional programming we use Declarative way
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Pure Function and side Effects
+
+//Impure function
+let a = 5;
+a = 3;
+function addNum(b){
+    console.log('The sum is ',a+b);
+}
+
+addNum(5)
+addNum(5)
+
+// It is an impure fun becz it is depending on some 
+//external factor  which is a here  so it will give diff 
+//output for same value of b 
+
+// Pure Funciton-
+function addNum(a,b){
+ console.log("The sum is ",a+b); // side effect
+}
+addNum(2,3);
+it will give same result every time for same arguments
+so we have to write pure function in functional programming
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+in this pure function we still have problem of side effect
+which is console.log
+
+Functional programming say - 
+same set of argument par same results ana chahiye and state mutate
+nahi honi chahiye 
+
+state mutate means - except the result of that func nothing should
+change exteranlly 
+
+but console.log uses an external screen and there it give the output
+we can remove the side effect here
+
+function addNum(a,b){
+ return a+b;
+}
+
+console.log(addNum(2,3));
+
+
+
+
+Mutability and Immutability
+
+Higher Order functions - map, filter , reduce
+
+Polyfills
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+this  - 
+
+this keyword behaves differently in different environment
+
+                          non-strict             strict  
+Browser environment          
+
+Node.js environment
+
+
+
+strict and non-strict me ek difference ye ha-
+a =3 
+console.log(a);  // runs good
+
+but if we do 
+
+'use strict'
+a = 3
+console.log(a);   // Error - a is not defined
+
+so we have to do let a = 3 or var a =3 ...
+ 
+
+~~~~~~~~~~~~~~~~~~~~~
+
+this keyword in node with non strict mode - 
+
+1. console.log(this) // returns an empty object
+
+2.
+function showThis(){
+	console.log(this)
+}
+
+showThis()    // we see a global object
+
+3.
+let obj = {
+    name; 'adam',
+    f: function(){
+         console.log(this);
+	}
+}
+
+obj.f();   //   we got obj  itself
+
+4.
+let obj = {
+    name; 'adam',
+    f: function(){
+          function g(){
+		console.log(this);     // we got global object
+ 	     }
+	    g();
+	}
+}
+
+obj.f();
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+this keyword in node with strict mode
+1. console.log(this)  // empty object
+2.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+this keyword in browser non strict mode 
+1.console.log(this)  // Window object
+2. fun - log   // Window object
+3. obj-fun-log    // obj itself
+4. obj-fun-fun-log   // window object
+
+
+this keyword in browser in strict mode
+1. console.log(this)  // Window Obj
+2. fun - log  //     undefined
+3. obj - fun -log // obj itself
+4. obj- fun - fun  - undefined
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+call - 
+
+let person1 = {
+	name : 'Jatin',
+	age : '23',
+	showDetails : function(){
+        console.log(`${this.name} is ${this.age} years old`);
+    }
+}
+
+let person2 = {
+	name : 'Ram',
+	age: '33'
+}
+
+function showMoreDetails1(){
+    console.log(`${this.name} is ${this.age} years old`);
+}
+
+function showMoreDetails2(city,car){
+    console.log(`${this.name} is ${this.age} years old  he lives in ${city} he drives ${car}`);
+}
+
+person1.showDetails();
+person1.showDetails.call(person2);
+showMoreDetails1.call(person1);
+showMoreDetails2.call(person1,'Jabalpur','Honda City')
+
+apply -
+
+showMoreDetails2.apply(person1,['Jabalpur','Honda City'])
+
+
+bind - 
+
+const showDetailsBind = showMoreDetails2.bind(person1,'Jabalpur','Honda City')
+showDetailsBind() 
+
+
+call, apply, and bind are methods in JavaScript that are used to control the invocation of a function and set the value of this inside the function. They are used to explicitly define the context in which a function is executed.
+
+explicit context binding and to control the invocation of fun
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Function currying with bind method ft Closuers - 
+
+
+Currying is a technique used in functional programming in JavaScript where a function that takes multiple arguments is transformed into a series of functions that take one argument at a time, returning a new function with each argument until all arguments are provided and the final result is returned.
+
+ It allows you to create more specialized and reusable functions by partially applying arguments to a function
+
+In JavaScript, a curried function is typically implemented using nested functions that capture the arguments in their closure. Here's an example of a curried function in JavaScript:
+
+function add(x) {
+  return function(y) {
+    return x + y;
+  }
+}
+
+// Usage
+const add5 = add(5); // Currying: create a specialized function that adds 5 to its argument
+console.log(add5(3)); // Output: 8
+
+~~~~~~~~~~~~ using bind
+function add(x,y){
+    return  x+y;
+}
+
+const addWith2 = add.bind(this,2);
+console.log(addWith2(4))
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Polyfills are code snippets or libraries that provide implementations of JavaScript functions or features that may not be available in older browsers or environments. 
+
+Polyfills of map, filter and reduce
+
+older browser does not support higer order fun which came after ES6 
+
+Map -
+without using this
+
+const arr = [1,2,3,4,5];
+const sqArr = arr.map((ele)=>{
+    return ele*ele;
+});
+console.log(sqArr)
+~~~~~~~~~~~~~~~~~~~~~~~~~
+function mapPolyfill(arr,cb){
+    let newArr = [];
+    for(let i=0;i<arr.length;i++){
+        let res = cb(arr[i]);
+        newArr.push(res)
+    }
+    return newArr;
+}
+const cb = (x)=>{
+    return  x*x;
+}
+console.log(mapPolyfill(arr,cb))
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Filter-
+
+let arr = [1,2,3,4,5,6]
+let farr = arr.filter((ele)=> ele%2===0)
+console.log(farr);
+
+function filterPolyfill(arr,cb){
+    let newArr = [];
+    for(let i=0;i<arr.length;i++){
+        if(cb(arr[i])){
+            newArr.push(arr[i]);
+        }
+    }
+    return newArr
+}
+function cb(ele){
+    if(ele%2===0)return true;
+}
+
+
+Reduce -
+let arr = [1,2,3,4,5]
+let res = arr.reduce((acc,curr)=>{
+    return acc += curr;
+},0)
+console.log(res)
+
+function reducePolyfill(arr,cb,initialValue){
+    let acc = initialValue;
+    for(let i=0;i<arr.length;i++){
+        acc = cb(arr[i],acc)
+    }
+    return acc;
+}
+function cb(curr,acc){
+    return curr+acc;
+}
+console.log(reducePolyfill(arr,cb,0))
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ 
+
+Again polyfill of map - 
+
+Array.prototype.myMap = function(cb){
+    let newArr = []
+    for(let i=0;i<this.length;i++){
+        newArr.push(cb(this[i]));
+    }
+    return newArr;
+}
+
+let arr = [1,2,3,4,5]
+
+console.log(arr.myMap(cb));
+function cb(x){
+    return x*x;
+}
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+OOPS JS-
+
+Learn 'this' like never before
+Constructor Function  (Create your own objects);
+Call Apply Bind methods
+function Prototype and Bind Polyfill
+Prototypal Inheritance
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+let  a= 10;
+function fun(){
+  console.log(a);  
+  let a = 20;
+}
+fun()
+
+or 
+
+let a = 20
+
+{
+  console.log(a)
+  let a = 30
+}
+
+ // ReferenceError: Cannot access 'a' before initialization
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+var a = 20
+
+{
+  console.log(a)
+  var a = 30
+}
+
+// 20
+
+~~~~~~
+
+var a = 20
+
+function fun(){
+  console.log(a)
+  var a = 30
+}
+fun()
+
+// undefined
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Function Scope -
+
+function f1(){
+    var a = 10;
+    let b = 20;
+    const c  =30;
+}
+f1();
+console.log(a)
+console.log(b)
+console.log(c)
+
+Output - ReferenceError : a is not defined
+
+So outSide the fun scope nothing can be accessilbe
+
+
+Lexical Scope - 
+
+function add(){
+    var a = 5;
+    function xyz(){
+        console.log('i am xyz')
+    }
+    function addChild(){
+        console.log(a+5,xyz)
+    }
+    return addChild;
+}
+let childFun = add();
+childFun();
+
+
+addChild has access to variable and functions
+of its parent  which is called the lexical scope
+
+and along with that addChild has also access to its
+parent lexical scope
+
+a function is always bundled along with lexical scope forms a 
+closure
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Bind method in js
+
+In JavaScript, the bind method is a built-in function that allows you to create a new function with a specified this value and optional arguments, which can be useful for controlling the context in which a function is executed. The bind method returns a new function that, when invoked, has its this value set to a specific object, regardless of how and where it is called.
+
+const person = {
+  firstName: 'John',
+  lastName: 'Doe'
+};
+
+function greet() {
+  console.log(`Hello, ${this.firstName} ${this.lastName}!`);
+}
+
+const greetPerson = greet.bind(person); // bind `person` object as `this` value
+
+greetPerson(); // Output: Hello, John Doe!
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+What is Function prototype
+
+In JavaScript, the Function.prototype is an object that serves as the prototype for all function objects in JavaScript. It is a built-in property that is available on every function created in JavaScript, including function declarations, function expressions, and arrow functions.
+
+The Function.prototype object contains properties and methods that are inherited by all function objects, allowing you to add custom functionality to JavaScript functions. Here are some commonly used properties and methods available on the Function.prototype object:
+
+apply(thisArg, argsArray): A method that invokes the function with a specified this value and an array-like object of arguments. The thisArg parameter is the value that will be used as the this value within the function, and argsArray is an array-like object that contains the arguments to be passed to the function.
+
+call(thisArg[, arg1[, arg2[, ...]]]): A method that invokes the function with a specified this value and individual arguments. The thisArg parameter is the value that will be used as the this value within the function, and arg1, arg2, etc. are the individual arguments to be passed to the function.
+
+bind(thisArg[, arg1[, arg2[, ...]]]): A method that creates a new function with a specified this value and optional arguments. The thisArg parameter is the value that will be used as the this value when the bound function is invoked, and arg1, arg2, etc. are the optional arguments to be passed to the bound function.
+
+toString(): A method that returns a string representation of the function.
+
+length: A property that indicates the number of formal parameters the function expects.
+
+prototype: A property that refers to the prototype object of the function, which can be used to add properties and methods that will be inherited by objects created with the function as a constructor.
+
+Note that Function.prototype is itself an object, and it is also a function object, as all functions in JavaScript are objects. It can be extended or modified like any other JavaScript object, allowing you to add custom functionality to all functions in your JavaScript code. However, it is generally recommended to avoid modifying the Function.prototype object directly, as it can have unintended consequences. Instead, you can create your own prototype objects and attach methods and properties to them, and then use constructor functions or classes to create objects that inherit from those prototype objects.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+what is ...args 
+
+In JavaScript, ...args is a syntax called "rest parameters" or "rest syntax" that allows a function to accept an arbitrary number of arguments as an array. The ellipsis (...) followed by a parameter name (args in this case) is used in the function parameter list to indicate that any extra arguments passed to the function should be gathered into an array.
+
+Here's an example of how you can use ...args in a function:
+
+
+function foo(...args) {
+  console.log(args);
+}
+
+foo(1, 2, 3); // Logs: [1, 2, 3]
+foo('a', 'b', 'c'); // Logs: ['a', 'b', 'c']
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+// bind polyfill  with function prototype
+
+let person1 = {
+    name : 'jatin',
+    age: '23'
+}
+
+function showDetails(city,car){
+    console.log(`${this.name} is ${this.age} year old, lives in ${city} ,drives ${car}`)
+}
+const showDetailBind = showDetails.bind(person1,'noida')
+showDetailBind('thar')
+
+
+Function.prototype.myBind = function(...args){
+    let funObj = this;
+    let params = args.slice(1);
+    return function(...args2){
+        funObj.apply(args[0], [...params,...args2])
+    }
+}
+
+const showDetailMyBind = showDetails.myBind(person1,'mp')
+showDetailMyBind('suv')
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Constructor Functions in js
+
+let's say we have to create object which have cars data
+let obj1 =  {
+    name : 'bmw',
+    model: 's4',
+    color: 'white'
+}
+
+let obj2 = {
+    name : 'mercedes',
+    model: 's6',
+    color: 'red'
+}
+
+so we are repeating properties name again and again for each
+object 
+
+what if we have some fun in which we can pass the parameter 
+and it returns object
+
+it is called constructor function
+##################
+function Car (name,model,color){
+    this.name = name;
+    this.model = model;
+    this.color = color;
+
+    this.start = function (){
+        console.log('I am starting '+ this.name)
+    }
+}
+// as we know inside fun this points  to global object
+//but when we use new keyword and call the function this points to empty object {}
+
+
+const car1 = new Car('bmw','s4','white'); // this - {}
+const car2 = new Car('mercedes','s5','red'); // this - {}
+console.log(car1)
+console.log(car2)
+
+#######################
+April 14 2023
+ 
+
+
+What is prototypal inheritance
+Prototypal inheritance is a mechanism in JavaScript that allows objects to inherit properties and methods from their prototype objects. In JavaScript, objects are created based on a blueprint called a constructor function, and objects created from the same constructor function share a common prototype object. When a property or method is accessed on an object, JavaScript looks for that property or method first on the object itself, and if not found, it looks up the prototype chain to find the property or method on the prototype object, and so on, until it reaches the top of the prototype chain.
+
+The prototype chain forms a chain of objects where each object's prototype points to another object's prototype, forming a chain-like structure. This allows objects to inherit properties and methods from their prototype objects. When an object attempts to access a property or method that it does not have, JavaScript looks up the prototype chain to find the property or method on one of its prototype objects.
+
+// Constructor function for creating Person objects
+function Person(name, age) {
+  this.name = name;
+  this.age = age;
+}
+
+// Adding a method to the prototype of Person objects
+Person.prototype.sayHello = function() {
+  console.log(`Hello, my name is ${this.name} and I am ${this.age} years old.`);
+};
+
+// Creating a new object using the Person constructor
+let person1 = new Person("Alice", 30);
+
+// person1 inherits properties and methods from the Person prototype
+console.log(person1.name); // "Alice"
+console.log(person1.age); // 30
+person1.sayHello(); // "Hello, my name is Alice and I am 30 years old."
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Creating Objects with Classes and Constructors
+
+class Person {
+    constructor(name,age){
+        this.name = name;
+        this.age = age;
+    }
+
+    showDetails(){
+        console.log('Name: '+this.name+'   Age -- '+this.age)
+    }
+}
+
+const person1 = new Person('jatin','23');
+person1.showDetails()
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Null  Vs Undefined Vs not defined
+
+
+console.log(a)   // undefined 
+var a = 20
+
+
+console.log(b)  // not defined     ,  b is not present  in that scope
+
+
+function f1(){
+    
+}
+console.log(f1())    // undefined
+
+
+function f1(){
+    return  null
+}
+console.log(f1())  // null  ,
+ when we have intentionally specified null to return
+
+let b = global.v
+console.log(b)    // undefined
+
+
+It's important to note that null and undefined are distinct values in JavaScript, and they are not interchangeable. null is used when you intentionally want to indicate the absence of a value, while undefined is used to indicate that a value is not assigned or not present.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Shallow Copy and Deep Copy 
+
+Shallow copy:
+A shallow copy of an object or array creates a new object or array, but the values of the nested properties or elements are still references to the same objects as the original object or array. In other words, the nested objects or arrays in the shallow copy and the original object or array share the same memory addresses.
+
+Here's an example of shallow copy using the Object.assign() method:
+
+let originalObject = { prop1: "value1", prop2: { nestedProp: "value2" } };
+
+let shallowCopy = Object.assign({}, originalObject); // creating a shallow copy using Object.assign()
+
+console.log(originalObject); 
+/* { prop1: "value1", prop2: { nestedProp: "value2" } } */
+
+console.log(shallowCopy);
+/* { prop1: "value1", prop2: { nestedProp: "value2" } } */
+
+shallowCopy.prop2.nestedProp = "new value"; // modifying the shallow copy
+
+console.log(originalObject);
+/* { prop1: "value1", prop2: { nestedProp: "new value" } } */
+// The original object is also modified as it shares the same nested object with the shallow copy
+
+console.log(shallowCopy);
+/* { prop1: "value1", prop2: { nestedProp: "new value" } } */
+#######################
+Deep copy:
+A deep copy of an object or array creates a completely independent copy of the original object or array, including all nested objects or arrays. In other words, the nested objects or arrays in the deep copy are completely separate objects in memory from the original object or array.
+
+Here's an example of deep copy using the JSON.parse() and JSON.stringify() methods:
+let originalObject = { prop1: "value1", prop2: { nestedProp: "value2" } };
+
+let deepCopy = JSON.parse(JSON.stringify(originalObject)); // creating a deep copy using JSON methods
+
+console.log(originalObject);
+/* { prop1: "value1", prop2: { nestedProp: "value2" } } */
+
+console.log(deepCopy);
+/* { prop1: "value1", prop2: { nestedProp: "value2" } } */
+
+deepCopy.prop2.nestedProp = "new value"; // modifying the deep copy
+
+console.log(originalObject);
+/* { prop1: "value1", prop2: { nestedProp: "value2" } } */
+// The original object is not modified as the deep copy is completely independent
+
+console.log(deepCopy);
+/* { prop1: "value1", prop2: { nestedProp: "new value" } } */
+#########
+
+Explain session storage and local storage 
+
+Sure! Session storage and local storage are two client-side web storage options in modern web browsers that allow JavaScript code running on a web page to store data locally on the user's device. Both session storage and local storage provide a way to store data in key-value pairs, similar to how data is stored in a dictionary or an object
+
+
+
+Session storage:
+Session storage is a type of web storage that allows data to be stored on the user's device during a single browsing session.
+
+A session in this context refers to the duration of time that a user spends on a particular website or web application, from the moment they open the website until they close their browser or end the session in some other way.
+
+Data stored in session storage is available only for the duration of the current browsing session and is not persistent. Once the session is closed, the data in session storage is deleted.
+
+Session storage is typically used to store temporary data that is only needed during the current session and does not need to persist across different browsing sessions.
+
+Example Shopping Cart ,Form Data,User Authentication,Game State,temporary preferences, temporary settings, or temporary data
+
+
+
+
+Local storage:
+Local storage is a type of web storage that allows data to be stored on the user's device without an expiration date, meaning it persists even after the browser is closed and the user leaves the website or web application.
+Data stored in local storage remains available until it is explicitly removed by the website or web application, or until the user clears their browser cache or manually deletes the local storage data.
+Local storage is typically used to store long-term data that needs to persist across different browsing sessions, such as user preferences, settings, or other data that the website or web application needs to remember between visits.
+
+// Setting data in session storage
+sessionStorage.setItem("key", "value"); // set a key-value pair in session storage
+
+// Getting data from session storage
+let valueFromSessionStorage = sessionStorage.getItem("key"); // get the value associated with a key from session storage
+
+// Setting data in local storage
+localStorage.setItem("key", "value"); // set a key-value pair in local storage
+
+// Getting data from local storage
+let valueFromLocalStorage = localStorage.getItem("key"); // get the value associated with a key from local storage
+
+// Removing data from session storage
+sessionStorage.removeItem("key"); // remove a key-value pair from session storage
+
+// Removing data from local storage
+localStorage.removeItem("key"); // remove a key-value pair from local storage
+
+// Clearing all data from session storage
+sessionStorage.clear(); // remove all key-value pairs from session storage
+
+// Clearing all data from local storage
+localStorage.clear(); // remove all key-value pairs from local storage
+########
+
+
+It's important to note that data stored in session storage and local storage is accessible only to JavaScript code running on the same domain that originally stored the data,  same domain means?
+
+Yes, that's correct. The data stored in session storage and local storage is accessible only to JavaScript code running on the same domain that originally stored the data. In the context of web development, a "domain" refers to the combination of a website's protocol (such as HTTP or HTTPS), subdomain (e.g., www), domain name (e.g., example), and top-level domain (e.g., .com, .org).
+
+For example, if you have a web application running at "https://www.example.com", then any JavaScript code running on web pages that belong to "https://www.example.com" can access the data stored in session storage or local storage by using the appropriate JavaScript APIs.
+It's important to note that this restriction is in place due to security reasons, as it helps prevent cross-site scripting (XSS) attacks, where malicious scripts from one domain attempt to access sensitive data stored on another domain without authorization
+
+What is cors and why it is there
+
+
+CORS stands for Cross-Origin Resource Sharing. It is a security mechanism implemented in web browsers to restrict web pages from making cross-origin HTTP requests, i.e., requests for resources (such as data, images, scripts, etc.) that are hosted on a different domain than the domain of the currently loaded web page.
+
+
+CORS is in place to prevent unauthorized access to sensitive data or resources from web pages loaded from one domain by scripts running on another domain. It is an important security feature that helps protect web applications from cross-site scripting (XSS) attacks, where malicious scripts running on one domain attempt to interact with resources on another domain without proper authorization.
+
+CORS is enforced by web browsers, which include special headers in HTTP requests and responses to indicate the permissions granted by the server for cross-origin requests. These headers include the "Access-Control-Allow-Origin" header, which specifies the allowed origins (i.e., domains) that are allowed to access the resources, and other headers such as "Access-Control-Allow-Methods", "Access-Control-Allow-Headers", and "Access-Control-Allow-Credentials" that provide additional control over the allowed methods, headers, and credentials for cross-origin requests.
+
+
+
+explain clearly so it protect the user which is making the request or the server where the request is made
+
+CORS (Cross-Origin Resource Sharing) is a security mechanism implemented in web browsers that protects both the user making the request and the server where the request is made.
+
+From the user's perspective, CORS helps prevent unauthorized access to sensitive data or resources that are hosted on a different domain than the domain of the currently loaded web page. This prevents malicious scripts running on one domain from making unauthorized requests to another domain on behalf of the user, which could potentially lead to theft of sensitive information or other malicious activities. CORS ensures that only web pages loaded from authorized domains are allowed to make cross-origin requests, protecting the user's data and privacy.
+
+From the server's perspective, CORS helps protect against cross-site scripting (XSS) attacks, where malicious scripts running on one domain attempt to interact with resources on another domain without proper authorization. By allowing web servers to specify which domains are authorized to access their resources through CORS headers, servers can prevent unauthorized access to their data and resources, and ensure that only authorized domains are allowed to make cross-origin requests. This helps enhance the security of web applications and protects sensitive data from unauthorized access.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Promises question 1
+
+ setTimeout(function(){  // task que
+    console.log(1);
+}) 
+
+setTimeout(function(){  // task que
+    console.log(2);
+})
+
+let p = new Promise(function (resolve,reject){  
+    resolve()
+})
+
+console.log(3);
+p.then(function(){  // mirco task que
+    console.log(4)
+})
+
+p.then(function(){ // micro task
+    console.log(5)
+})
+setTimeout(function(){ // task que
+    console.log(6);
+})
+Output -
+//3
+//4
+//5
+//1
+//2
+//6
+
+
+Question 2 
+
+//Create a setTimeout with Promises
+
+
+// function delay(n){
+//     return new Promise((resolve,reject)=>{
+//         const time = new Date().getTime();
+//         let curr = time;
+//         while(curr<time+n){
+//             curr = new Date().getTime();
+//         }
+//         resolve();
+//     })
+// }
+2nd way - 
+
+function delay(n){
+    return new Promise(resolve=> setTimeout(resolve,3000))
+}
+
+delay(3000).then(()=>alert('runs after 3 seconds'))
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+What is the difference between props and state in react
+In React, props and state are both used to manage and pass data in a React component
+In summary, props are used for passing data from parent components to child components and are read-only, while state is used for managing local mutable data within a component and can be changed using setState(). Props are owned by the parent component, while state is owned by the component itself.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+let i = 1;
+
+for(;i<=5;i++){
+    setTimeout(function(){
+        console.log(i)
+    },1000)
+     
+}
+
+Output - 
+6
+6
+6
+6
+6
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+if we have 100 of API call , how you will manage those in react 
+
+In a React application, managing API calls effectively is important to ensure smooth performance and responsiveness. Here are some approaches you can consider for managing 100 API calls in React:
+
+Use a state management library: Popular state management libraries like Redux or MobX can help manage the API call data in a centralized store, making it easier to organize, access, and update the data across the application.
+
+Implement throttling or debouncing: Throttling or debouncing techniques can be used to limit the frequency of API calls. For example, you can throttle the API calls to a maximum of 5 requests per second, or debounce the API calls so that they are triggered only after a certain period of inactivity, reducing the number of unnecessary API calls.
+
+Use pagination or infinite scrolling: If you are fetching a large amount of data, consider using pagination or infinite scrolling techniques to fetch and display data in smaller chunks, rather than making a single large API call. This can improve performance and reduce the number of API calls needed.
+
+Cache data: Implement client-side caching to store frequently used API responses locally in the browser. This can help reduce the number of API calls by serving data from the cache instead of making redundant requests.
+
+Use async/await or Promises: Utilize JavaScript's async/await or Promise-based syntax to handle API calls in an asynchronous and non-blocking manner. This can help prevent blocking the main thread and ensure smooth UI interactions.
+
+Handle errors and retries: Implement error handling and retries for API calls to handle scenarios such as network failures or server errors. This can help ensure robustness and reliability in the face of unexpected errors.
+
+Optimize component rendering: Avoid triggering unnecessary API calls during component rendering. Use lifecycle methods or hooks like useEffect to control when API calls should be made based on component lifecycle or state changes, and avoid excessive re-renders.
+
+Monitor and optimize performance: Regularly monitor the performance of your API calls using performance profiling tools like DevTools, and optimize them for better performance. Consider using techniques like memoization or memoized selectors to avoid redundant computations or API calls.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+Throttling and debouncing are techniques used in JavaScript to control the frequency of function invocations in situations where a function may be called multiple times in a short period of time, such as in response to events like scrolling or resizing. These techniques can help optimize performance by reducing the number of function calls and preventing unnecessary computations
+
+
+Throttling:
+Throttling limits the frequency of function invocations by enforcing a minimum time interval between successive calls. For example, if you throttle a function to a rate of 5 calls per second, it will only be invoked at most 5 times within a 1-second window, regardless of how many times it is called.
+
+s a m u n g - n o t e
+
+fc -----delay interval(300ms)-- fc
+after the first fun call weather you type slow or fast next
+fun call will be made only after the delay interval.
+###########
+const expensiveFun = () => {
+  console.log("fetching data");
+};
+// window.addEventListener('resize',expensiveFun)
+
+const throttle = (fun, limit) => {
+  let flag = true;
+  return function () {  
+    if (flag) {
+      fun();
+      flag = false;
+      setTimeout(() => {
+        flag = true;
+      }, limit);
+    }
+  };
+};
+const betterExpensiveFun = throttle(expensiveFun, 1000);
+window.addEventListener("resize", betterExpensiveFun);
+
+##################
+
+
+Debouncing:
+Debouncing delays the execution of a function until a certain period of inactivity has passed after the last invocation. It is often used in scenarios where you want to wait for a pause in a series of events before triggering an action. For example, if you have a search input field that sends API requests for autocomplete suggestions, you may want to debounce the API calls to avoid flooding the server with requests as the user types.
+
+s a m s u n g n o t e
+            fc      fc
+so if the difference between the key stoke is greater then time interval
+300ms then only make the api call
+
+##################################
+<input type="text" onkeyup="betterFun(123)" />
+
+let count = 1;
+let getData = (id)=>{
+    console.log('Fetching data...',id,count++)
+}
+
+const betterFun = doSomeMagic(getData,300);
+
+function doSomeMagic(fn,delay){
+    let timer;
+    return function(...args){ 
+        clearTimeout(timer)
+        timer = setTimeout(()=>{
+            fn(...args);
+        },delay)
+    }
+}
+
+#############################################3
+ 
+Debouncing Vs Throttling
+
+Example - if we are resizing the screen and we want to know 
+how often user resize the window
+
+addEventListere('resize',()=> trackResizeApi() )
+so during resizing 1000 of times an api call can be made 
+
+ .......  . . . . . . . .     Debouncing
+       >100ms fc
+
+ ..... ..... . . . . .  .     Throttling
+ fc    fc       fc      fc
+
+
+how frequently the user is resizing we have use Throttling
+
+no. of times  -  debouncing
+
+
+
+
+ 
+Scroll event, 
+API request rate limiting ,in Form input validation 
+throttling can be useful
+ 
+################
+function fetchApiData() {
+  // Fetch API data here
+}
+
+const throttledFetchApiData = throttle(fetchApiData, 1000); // Limit to 1 request per second
+
+// Call throttled function to fetch API data
+throttledFetchApiData();
+#################
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Explain event bubbling
+
+Event bubbling is a mechanism in the DOM (Document Object Model) where an event that is triggered on an element is propagated up the DOM tree from the target element to its parent elements, and potentially all the way up to the root of the document. This means that when an event occurs on an element, the event handlers for that event on its parent elements will also be triggered, unless the event propagation is explicitly stopped.
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Event Bubbling Example</title>
+</head>
+<body>
+  <div id="parent">
+    <div id="child">
+      <button id="grandchild">Click me</button>
+    </div>
+  </div>
+
+  <script>
+    // Attach event handler to parent element
+    document.getElementById('parent').addEventListener('click', function(event) {
+      console.log('Parent element clicked');
+    });
+
+    // Attach event handler to child element
+    document.getElementById('child').addEventListener('click', function(event) {
+      console.log('Child element clicked');
+    });
+
+    // Attach event handler to grandchild element
+    document.getElementById('grandchild').addEventListener('click', function(event) {
+      console.log('Grandchild element clicked');
+    });
+  </script>
+</body>
+</html>
+
+
+
+
+event.stopPropagation(): This method stops the event from further propagation in the DOM tree, preventing it from reaching parent elements. 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Event Capturing -   or also know as trickling
+
+Event capturing is the process of capturing an event at the earliest stage of the DOM tree, starting from the root element and then propagating down to the target element. It is the opposite of event bubbling, which occurs when an event starts at the target element and then propagates up the DOM tree to the root element.
+
+In event capturing, the event handlers on the ancestors (parent, grandparent, etc.) of the target element are triggered before the event reaches the target element itself. This allows you to capture and handle events at a higher level in the DOM tree before they reach the actual target element.
+
+Event capturing can be enabled during the event registration process by passing true as the third parameter to the addEventListener() method. Here's an example:
+
+
+######################
+<div id="parent">
+  <button id="child">Click me</button>
+</div>
+
+<script>
+  // Attach event handler using event capturing
+  document.getElementById('parent').addEventListener('click', function(event) {
+    console.log('Parent element clicked during event capturing');
+  }, true);
+
+  // Attach event handler to child element
+  document.getElementById('child').addEventListener('click', function(event) {
+    console.log('Child element clicked');
+  });
+</script>
+
+
+########################
+
+
+In the above example, when you click the "Click me" button, the event handler attached to the parent element with event capturing enabled will be triggered first, followed by the event handler attached to the child element. This allows you to capture and handle events at the parent element level before they reach the child element.
+
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+what  is event delegation
+
+Event delegation is a technique in JavaScript where you attach an event handler to a higher-level parent element in the DOM, instead of attaching the event handler directly to multiple child elements. This allows you to handle events for multiple elements with a single event handler, reducing the number of event handlers needed and improving performance, especially when dealing with a large number of dynamically created elements.
+
+
+The basic idea behind event delegation is that events "bubble up" or propagate from the target element to the root element in the DOM tree. So, if you attach an event handler to a parent element, it can capture events from its child elements, even if they are added to the DOM after the event handler is attached
+
+
+<ul id="parent">
+  <li>Item 1</li>
+  <li>Item 2</li>
+  <li>Item 3</li>
+</ul>
+
+<script>
+  // Attach event handler to parent element
+  document.getElementById('parent').addEventListener('click', function(event) {
+    // Check if the clicked target is an li element
+    if (event.target.tagName === 'LI') {
+      console.log('Item clicked:', event.target.textContent);
+    }
+  });
+</script>
+
+
+Event delegation can be especially useful when working with dynamic content, where elements are added or removed from the DOM dynamically, as the event handler attached to the parent element will still capture events for the dynamically added elements without needing to reattach event handlers. This can result in more efficient and maintainable code.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Question- mixed parameter capturing  and bubbling
+
+document.getElementById('parent').addEventListener('click', function(event) {
+    console.log('Parent element clicked');
+  },true); // capturing
+
+  // Attach event handler to child element
+  document.getElementById('child').addEventListener('click', function(event) {
+    console.log('Child element clicked');
+  },false); // bubbling
+
+  // Attach event handler to grandchild element
+  document.getElementById('grandchild').addEventListener('click', function(event) {
+    console.log('Grandchild element clicked');
+  },true);// capturing
+
+
+when we click the grandChild
+Output--
+Parent
+GranChild
+Child
+
+becz first capturing(moving down) happens then bubbling(moving up)
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+// private variable in js
+//with the help of closures
+
+const outer = (()=>{
+    let counter = 0;   // private variable
+
+    function decrement(){
+        counter--;
+        console.log(counter);
+    }
+     function increment(){
+        counter++;
+        console.log(counter)
+    }
+    function setCount(x){
+        count = 5;
+        console.log(x)
+    }
+    return {
+        inc: increment,
+        dec: decrement,
+        setCount: setCount,
+    }
+})()
+
+outer.setCount(7)
+outer.increment();
+outer.decrement();
+console.log(outer.counter) // undefined
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~`
+Question - 
+
+(function immediateA(a){
+    return (function immediateB(b){
+        console.log(a);
+    })(1);
+})(0);
+
+//0
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Question - 
+let count = 0;
+(function immediate(){
+    if(count===0){
+        let count = 1;
+        console.log(count);  // 1
+    }
+    console.log(count)  // 0
+})();
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Spread Operator:
+The spread operator is used to expand an iterable (e.g., an array, string, or object) into individual elements. It can be used in various contexts, such as function arguments, array literals, or object literals, and it "spreads" the values of the iterable into their respective positions. Here are some use cases of the spread operator:
+
+Arrays:
+const arr1 = [1, 2, 3];
+const arr2 = [...arr1, 4, 5, 6]; // creates a new array [1, 2, 3, 4, 5, 6]
+
+Function arguments:
+
+function sum(a, b, c) {
+  return a + b + c;
+}
+
+const numbers = [1, 2, 3];
+const result = sum(...numbers); // equivalent to sum(1, 2, 3)
+
+Object literals-
+const obj1 = { a: 1, b: 2 };
+const obj2 = { ...obj1, c: 3 }; // creates a new object { a: 1, b: 2, c: 3 }
+
+Rest Operator:
+The rest operator is used to gather multiple elements into an array. It is used in function arguments to represent a variable number of arguments as an array. The rest operator collects the remaining arguments into an array, allowing you to work with them as a single array. Here's an example:
+
+
+
+function sum(...numbers) {
+  return numbers.reduce((acc, curr) => acc + curr, 0);
+}
+
+const result = sum(1, 2, 3, 4, 5); // returns 15
+
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Important -  
+
+
+ function createIncrement(){
+    let count = 0;
+    function increment(){
+        count++;
+    }
+    let message = `Count is ${count}`;
+    function log(){
+
+        console.log(message,count)
+    }
+    return [increment,log];
+ }
+ const [increment,log] = createIncrement();
+ increment();
+ increment();
+ increment();
+ log()
+
+
+output  - 0   3
+ 
+if you want to update that also
+the value of message is assigned outside the increment() function, so it will not be updated dynamically as count changes. The value of message will remain the same as it was when createIncrement() was called, which is Count is 
+
+if you want to update that also
+function increment(){
+	count++;
+	message = `Count is ${count}`
+}
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+private varilbles,currying, time optimization,module pattern
+
+closures can be helpful in time optimiation
+
+
+
+
+What is module pattern
+
+The module pattern is a design pattern in JavaScript that encapsulates code within a private scope and provides a clean way to organize and encapsulate related functionality. It allows you to create private variables, methods, and properties that are not accessible from outside the module, while exposing a public API for interacting with the module.
+
+
+The module pattern is typically used to create self-contained modules that can be easily reused and imported into other parts of an application without polluting the global namespace. It promotes encapsulation and information hiding, helping to keep code modular, maintainable, and organized.
+
+const MyModule = (function() {
+  // Private variables
+  let privateVar = "I'm a private variable";
+
+  // Private method
+  function privateMethod() {
+    console.log("I'm a private method");
+  }
+
+  // Public API
+  return {
+    publicVar: "I'm a public variable",
+    publicMethod: function() {
+      console.log("I'm a public method");
+    }
+  };
+})();
+
+console.log(MyModule.publicVar); // Output: I'm a public variable
+MyModule.publicMethod(); // Output: I'm a public method
+
+console.log(MyModule.privateVar); // Output: undefined (private variable not accessible)
+MyModule.privateMethod(); // Output: TypeError (private method not accessible)
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Here's an example of how you can create and use modules in JavaScript
+// File: utils.js (module)
+
+// Export a utility function
+export function greet(name) {
+  console.log(`Hello, ${name}!`);
+}
+
+// Export a constant
+export const PI = 3.14159265359;
+
+// Export a class
+export class Circle {
+  constructor(radius) {
+    this.radius = radius;
+  }
+
+  getArea() {
+    return Math.PI * this.radius * this.radius;
+  }
+}
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+// File: main.js (entry point)
+
+// Import functions, constants, and classes from the utils module
+import { greet, PI, Circle } from './utils.js';
+
+// Use the imported functions, constants, and classes
+greet('John'); // Output: "Hello, John!"
+console.log(PI); // Output: 3.14159265359
+
+const circle = new Circle(5);
+console.log(circle.getArea()); // Output: 78.53981633974483
+
+
+so a module is nothing but a normal js file which is exporting some things
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Encapsulation and data hiding are related concepts in object-oriented programming (OOP) that are often used interchangeably, but they have subtle differences.
+
+Encapsulation: Encapsulation is the practice of bundling related data (properties) and behavior (methods) into a single unit called a class or an object. It is a way to group together data and methods that are conceptually related and hide their implementation details from the outside world. In JavaScript, encapsulation can be achieved using objects, closures, or classes (with the introduction of ES6 classes).
+#############
+// Encapsulation with object literal
+const person = {
+  name: "John",
+  age: 30,
+  sayHello: function() {
+    console.log(`Hello, my name is ${this.name} and I'm ${this.age} years old.`);
+  }
+};
+
+person.sayHello(); // Output: Hello, my name is John and I'm 30 years old.
+
+// Encapsulation with constructor function
+function Person(name, age) {
+  this.name = name;
+  this.age = age;
+  this.sayHello = function() {
+    console.log(`Hello, my name is ${this.name} and I'm ${this.age} years old.`);
+  };
+}
+
+const person = new Person("John", 30);
+person.sayHello(); // Output: Hello, my name is John and I'm 30 years old.
+
+
+#########
+
+Data hiding: Data hiding is a concept that refers to the practice of hiding the internal details or implementation of an object from the outside world. It means that the internal state (data/properties) of an object is not directly accessible or modifiable from outside the object. This is typically achieved by making certain properties or methods private, so that they cannot be accessed or modified from outside the object.
+
+#####
+
+// Data hiding with closures
+function createPerson(name, age) {
+  let _name = name; // private variable
+  let _age = age; // private variable
+
+  return {
+    sayHello: function() {
+      console.log(`Hello, my name is ${_name} and I'm ${_age} years old.`); // accessing private variables
+    }
+  };
+}
+
+const person = createPerson("John", 30);
+person.sayHello(); // Output: Hello, my name is John and I'm 30 years old.
+
+console.log(person._name); // Output: undefined (private variable not accessible)
+console.log(person._age); // Output: undefined (private variable not accessible)
+
+########
+
+
+ 
+// What is module pattern
+
+const Module = (()=>{
+    function privateMethod(){
+        //do something
+    }
+    let privateVariable = 10;
+    return {
+        publicMethod : function(){
+            //can call privateMethod();
+            //can access privateVariable
+            console.log('public method called')
+        },
+        publicVariable: 20,
+    }
+})()
+
+Module.publicMethod()
+console.log(Module.publicVariable)
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+// how to make a fun run only once
+
+const oncePolyFill = ()=>{
+    let called = false;
+    return ()=>{
+        if(!called){
+            console.log('First time and last time')
+            called = true;
+        }else{
+            console.log('I will not run again')
+        }
+    }
+
+}
+
+let once = oncePolyFill()
+once()
+once()
+once()
+once()
+once()
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+// more generic imple of once 
+
+let once = (func,context)=>{
+    let ran = false;
+    return ()=>{
+        let  arguments = [1,2,3]
+        if(!ran){
+            func.apply(context||this,arguments);
+            ran = true;
+        }
+    }
+
+}
+const hello = once(()=> console.log('Hello'));
+
+hello()
+hello()
+hello()
+hello()
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+// implement a Memoize fun 
+const myMemoize = function(func,context){
+    let res = {};
+
+    return function(...args){
+        const newArgs = JSON.stringify(...args)
+        if(!res[newArgs]){
+            res[newArgs] = func.call(context|| this, ...args)
+        }
+        return res[newArgs];
+    }
+}
+
+const findProduct = myMemoize((num1, num2)=>{
+    for(let i=0;i<1000000;i++){}
+    return num1*num2;
+}
+)
+
+console.time("first")
+findProduct(322,42236);
+console.timeEnd("first")
+
+console.time("second")
+findProduct(322,42236);
+console.timeEnd("second")
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Difference between closures and scope
+ A closure in JavaScript is a function that captures and remembers the values of variables and fun from its surrounding scope, even after the surrounding scope has exited.
+function outer(){
+    var a= 10;
+    const fun = ()=>console.log('hello');
+    return function inner(){
+        console.log(a)
+        console.log(fun)
+        fun
+    }
+}
+
+const inner = outer();
+inner();
+
+Scope in JavaScript: Scope in JavaScript refers to the accessibility of variables, functions, and other entities within a particular block of code. JavaScript has two main types of scope: global scope and local scope.
+
+var globalVar = "I am global!"; // Global scope
+
+function foo() {
+  var localVar = "I am local!"; // Local scope
+  console.log(globalVar); // Accessible from local scope
+}
+
+foo();
+console.log(globalVar); // Accessible from global scope
+console.log(localVar); // Not accessible, will throw an error
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+ {
+  var a = 30
+ }
+ console.log(a)
+
+// output - 30      as var is function scope not block scope
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Car24  - fontend Interview Experience
+Question 1
+
+function abc(){
+    console.log(a,b,c)
+    const c = 10;
+    let  b = 20;
+    var a = 30;
+
+}
+
+abc();
+
+
+
+ReferenceError: Cannot access 'b' before initialization
+a b c get hoisted but let and const are in temporal dead zone
+and they don't behave like var
+temporal dead zone - interval since the variable is decalred untill
+they are initialized 
+It refers to the period of time during which a variable exists but is not yet accessible or usable due to the way JavaScript's variable hoisting and scoping rules work.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Question 2
+
+Implicit and Explicit Binding
+
+var  obj = {
+    name: 'Jatin',
+    display: function(){
+        console.log(`My name is ${this.name}`)
+    }
+}
+
+var obj2 = {
+    name : 'abc'
+}
+
+obj.display.call(obj2)
+
+output - abc
+
+// so here we are explicitly providing to the context (obj2) for 
+the display fun otherwise it will run in the context of obj
+
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Question 3
+
+var  obj = {
+    name: 'Jatin',
+    display: ()=>{
+        console.log(this)
+	  console.log(`My name is ${this.name}`)
+    }
+}
+
+var obj2 = {
+    name : 'abc'
+}
+obj.display()
+
+
+so in case of arrow function this points to window object
+
+and if we do this.name = nothing will be the output
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+function fun(){
+  console.log(this)
+}
+let obj = {
+  fun1: function(){
+    console.log(this)
+  },
+  fun2: ()=>{
+    console.log(this)
+  }
+}
+fun()
+obj.fun1()
+obj.fun2()
+
+output -
+window
+obj
+window
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Question 4
+based on event loop 
+
+
+ console.log('a');
+ setTimeout(()=>console.log("set"),0);
+ Promise.resolve(()=> console.log("pro")).then((res)=>res());
+ console.log("b");
+
+ //a
+ //b
+ //pro
+ //set
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Question 5
+
+//infinite currying
+function add(a){
+    return function(b){
+        if(b){
+            return add(a+b)
+        }
+        return a;
+    }
+}
+
+console.log(add(1)(2)(3)())
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+// Implement this code
+
+const calc = {
+    total : 0,
+    add : function(a){
+        this.total += a;
+        return this;
+    },
+    multiply: function(b){
+        this.total *= b;
+        return this;
+    },
+    substract: function(c){
+        this.total -= c;
+        return this;
+    }
+
+}
+
+const result = calc.add(10).multiply(5).substract(30).add(10);
+console.log(result.total)
+
+
+
+

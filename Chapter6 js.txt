@@ -1,0 +1,375 @@
+Question 1 
+map vs forEach
+
+the main difference between map() and forEach() is that map() returns a new array, whereas forEach() does not. If you want to transform an array into a new array with modified values, map() is the way to go. If you just want to loop through an array and do something with each element, forEach() is the better option.
+
+in forEach-
+The return value of the callback function is ignored, and the original array is not modified.
+
+as the map returns an array we can do something like res.filter()
+that is chaining with other functions 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Question 2: null vs undefined
+
+null is a value we give explicitly , example a fun should retunr
+null 
+
+undefined is the value, which show the absence of any value 
+example , we have declared a varaible but we have not initialzed it.
+
+typeof null -  object
+typeof undefined - undefined
+
+undefined indicates that a variable has not been assigned a value, whereas null indicates that a variable has been intentionally set to a value that represents no value.
+
+what  are the real life exmaples when we need to use null in js
+
+Checking if a value is present or not: When we want to check if a value is present or not, we can use null to represent the absence of a value. For example, when we search for a record in a database and it is not found, we can return null to indicate that the record does not exist.
+
+Initializing a variable with an empty value: When we want to initialize a variable that has no value, we can use null. For example, when we create a user account, we may want to initialize the user's middle name with null if the user has not provided a middle name.
+
+Clearing the value of a variable: When we want to clear the value of a variable, we can assign it null. For example, if we have a variable that holds a reference to an object and we want to clear it, we can assign null to it.
+
+Error handling: In some cases, we may want to use null to indicate that an error has occurred or a value could not be obtained. For example, when we try to retrieve data from an external API and the API returns an error, we can return null to indicate that the data could not be obtained.
+
+
+~~~~~~~~~~~~~~~~~~~~~~
+
+console.log(null == undefined )    // true
+console.log(null === undefined ) // false
+
+The == operator checks for loose equality after type coercion, while the === operator checks for strict equality without any type coercion.
+
+In the first line, null and undefined are loosely equal because they are both falsy values and are considered to have the same value in loose equality. JavaScript automatically converts undefined to null in loose equality comparison, which is why null == undefined returns true.
+
+In the second line, null and undefined are strictly unequal because they are not of the same type. null is an object and undefined is a primitive value. The === operator does not perform any type coercion, so it checks for strict equality of values and types. Since null and undefined are not of the same type, null === undefined returns false.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+What is type coercion
+
+In JavaScript, type coercion is the process of converting one data type to another implicitly or explicitly. When we use an operator or function with operands or arguments of different data types, JavaScript tries to convert one or both of them to a common type to perform the operation or function.
+
+There are two types of type coercion in JavaScript: implicit and explicit.
+
+Implicit coercion: Implicit coercion happens when JavaScript automatically converts a value from one data type to another without the programmer explicitly requesting it. For example, when we add a number and a string, JavaScript automatically converts the string to a number before doing the addition.
+
+console.log(1 + "2"); // Output: "12"
+
+1 is converted into string then added with string 2 
+
+Explicit coercion: Explicit coercion happens when the programmer explicitly converts a value from one data type to another using a function or operator. For example, we can convert a string to a number using the Number function.
+
+console.log(Number("123")); // Output: 123
+
+In the above example, we explicitly coerce the string "123" to a number using the Number function.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+difference between == and === in js
+
+In JavaScript, there are two comparison operators for checking equality: == (loose or abstract equality) and === (strict or identity equality).
+
+The == operator compares the values for equality after doing type coercion if necessary. This means that if the operands are of different types, JavaScript tries to convert one or both of them to a common type before doing the comparison. For example, the string "1" and the number 1 are considered equal when using ==.
+
+console.log("1" == 1); // Output: true
+console.log(true == 1); // Output: true
+console.log(null == undefined); // Output: true
+
+
+The === operator, on the other hand, checks for equality without doing type coercion. It only returns true if the operands have the same type and the same value. For example, the string "1" and the number 1 are not considered equal when using ===
+
+console.log("1" === 1); // Output: false
+console.log(true === 1); // Output: false
+console.log(null === undefined); // Output: false
+
+
+To summarize, the main difference between == and === is that == does type coercion before comparing the values, while === does not.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Question 3 
+Explain event delegation
+
+when we have a list of items then instead of applying event listener
+to each items we can attach event listener to parent and becz of 
+event bubbling  happens we can perform the same operations as 
+we click on any child item 
+
+ document.getElementById('products').addEventListener('click',(e)=>{
+    console.log(e.target.innerHTML)
+    window.location.href += `#${e.target.innerHTML}`
+ })
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Question 4   Flatten the array
+let arr = [
+    [1,2],
+    [3,4],
+    [5,6,[7,8],9],
+    [10,11,12]
+]
+
+function flatten(arr){
+    let res = [];
+    arr.forEach((ele)=>{
+        if(Array.isArray(ele)){
+            res.push(...flatten(ele))
+        }else{
+            res.push(ele)
+        }
+    })
+    return res;
+}
+console.log(flatten(arr))
+
+function customFlat(arr,depth=1){
+    let res = [];
+    arr.forEach((ele)=>{
+        if(Array.isArray(ele) && depth>0){
+            res.push(...customFlat(ele,depth-1))
+        }else{
+            res.push(ele)
+        }
+    })
+    return  res;
+}
+//console.log(customFlat(arr,3))
+
+//built in flat method
+//console.log(arr.flat(2))  // 2 is the depth
+
+
+// one level of flatting
+let flattenArr = [].concat(...arr)
+//console.log(flattenArr)
+
+let newArr = []
+arr.forEach((val)=>{
+    newArr.push(...val)
+})
+//console.log(newArr)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Round 2
+Question 1 : var vs let vs const
+
+1. let and const are block scope but var is functional scope
+Example-
+
+function fun(){
+    {   
+        var a = 10;
+        let b = 20;
+        const c = 30;
+    }
+    console.log(a) // 10
+    console.log(b) // b is not defined
+    console.log(c)
+}
+fun();
+
+
+
+2. re-declaration -
+
+var can be reclared but let and const can't be
+
+var a = 10;
+var a = 10;
+
+let b = 20;  
+let b = 20; // b has already been declared
+
+const c=30;
+const c=30; // c has already been declared
+
+
+3. re-initialization -
+
+we can re-initialize var and let variable but not const
+
+var a = 10;
+a = 20;
+
+let b = 10;
+b = 10;
+
+const c = 10;
+c = 20;            // Assignment to constant variable
+
+
+4. declaration without initialization
+
+var and let can be decalred without initialization but not const
+
+var a; 
+let b;
+const c; // Missing initializer in const declaration
+
+
+5. hoisting
+
+let and const behaves differently then var while hoisting
+
+console.log(a)
+console.log(b) // can not access b before initialization
+console.log(c)
+
+var a = 10;
+let b = 20;
+const c = 30;
+
+let and const are hoisted but they are in the temporal dead zone,
+so we can not access them before initialization
+
+temporal dead zone is nothing but the time interval since the
+let or const variable came into memory till the time they
+are initialized with value
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Question 2 
+
+function a(){
+    for(var i=0;i<3;i++){
+        setTimeout(function(){
+            console.log(i)
+        },i*1000)
+    }
+}
+
+a();
+
+
+3 // after 1 sec
+3 // after  next 1 sec
+3 // after next 1 sec
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Question 3
+Explain call apply and bind
+
+so basically these are the function to used to
+control the fun invocation and explicit binding of the context
+
+
+###############
+let person1 = {
+    name: 'jatin',
+    sayHello : function(){
+        console.log(`Hello ${this.name}`)
+    }
+}
+
+function showDetails(car,city){
+    console.log(`I am ${this.name} ,I drive ${car}, I live in ${city}`)
+}
+
+let person2 = {
+    name: 'Amit'
+}
+
+person1.sayHello.call(person2)  //   sayHello is comming from the context of person1 
+showDetails.call(person1,'BMW','Jabalpur') 
+showDetails.apply(person2,['Wagonr','Bhopal'])
+const myDetails = showDetails.bind(person2,'Wagonr','Bhopal')
+myDetails()
+
+##############
+As compose and pipe are not js function why we talk about them
+
+Although compose and pipe are not built-in functions in JavaScript, they are frequently used in functional programming to combine multiple functions into a single function.
+
+Functional programming is a programming paradigm that emphasizes the use of functions to perform computations. In functional programming, functions are treated as first-class citizens, which means that they can be passed as arguments to other functions, returned as values from functions, and stored in variables or data structures.
+
+One of the benefits of using functions as building blocks is that they can be easily combined to create more complex functions. compose and pipe are two common ways of combining functions in functional programming.
+
+pipe evaluates - from left to right
+compose evaluates - from right to left 
+
+~~~~~~~~~~~~~~~~~~~~
+Question 
+//Question : Composition Polyfill
+
+function compose(...functions){
+    return  function evaluate(args){
+        return functions.reduceRight((acc,fn)=>fn(acc),args)
+    }
+}
+
+function addFive(a){
+    return a+5;
+}
+
+function substracteTwo(a){
+    return a -2;
+}
+
+function multiplyFour(a){
+    return a* 4;
+}
+
+const evaluate  = compose(addFive,substracteTwo,multiplyFour);
+console.log(evaluate(5))
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+like in reduce we give an callback fun with acc and curr and some initial value same in rightReduec();
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Question - 
+Implement promise.all()
+
+function myPromiseAll(promises){
+    let result = []
+    return  new Promise((resolve,reject)=>{
+        promises.forEach((p,index)=>{
+            p.then((res)=>{
+                result.push(res)
+                if(index===promises.length-1){
+                    resolve(result)
+                }
+            }).catch((err)=>reject(err))
+
+        })
+    })
+}
+const showText = (text,time)=>{
+    return new Promise((resolve,reject)=>{
+        setTimeout(()=>resolve(text),time)
+    })
+}
+myPromiseAll([Promise.resolve('hi'),showText('Hello',3000),
+Promise.reject('Something wrong') ])
+.then((result)=>{
+    console.log(result)
+})
+.catch((err)=>console.log(err))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

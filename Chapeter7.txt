@@ -1,0 +1,66 @@
+GeneratorFunction in js
+
+we can pause and resume these functions
+
+function* simpleGenerator(){
+    console.log('Function called')
+    yield 10;
+    yield 'hello';
+    yield [10,20,30];
+
+}
+
+const sg = simpleGenerator()
+console.log(sg.next())
+console.log(sg.next())
+console.log(sg.next())
+console.log(sg.next())
+
+
+Function called
+index.js:10 {value: 10, done: false}
+index.js:11 {value: 'hello', done: false}
+index.js:12 {value: Array(3), done: false}
+index.js:13 {value: undefined, done: true}
+
+
+the yield keyword pauses generator function execution and the value of the expression following the yield keyword is returned to the generator's caller. It can be thought of as a generator-based version of the return keyword. yield can only be used directly within the generator function that contains it.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+real world application
+
+html:
+<h4>Unique Number: <span id="newNum"></span></h4>
+<button onclick="newNum()">Generate number</button>
+
+js: 
+function* simpleGenerator(){
+     let i = 100;
+     while(true){
+        yield i;
+        i++;
+     }
+
+}
+
+const sg = simpleGenerator()
+function newNum(){
+    document.getElementById('newNum').innerText = sg.next().value
+}
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Generator is a feature introduced in Javascript ES6. Through the yield keyword, we can pause function execution and return an intermediate value until the next time the generator is invoked.
+
+yield* is used when we want to delegate to another Generator (in this case the recursive call).
+
+var inorderTraversal = function*(arr) {
+    for (let element of arr) {
+        if (Array.isArray(element)) {
+            yield* inorderTraversal(element);
+        } else {
+            yield element;
+        }
+    }
+};
+

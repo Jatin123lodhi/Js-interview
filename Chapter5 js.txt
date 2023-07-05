@@ -1,0 +1,147 @@
+Chapter5 js
+Automatically global scope
+
+myFunction();
+
+// code here can use carName
+
+function myFunction() {
+  carName = "Volvo";
+}
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Scope in JavaScript refers to the accessibility or visibility of variables. That is, which parts of a program have access to the variable or where the variable is visible.
+
+Why is Scope Important?
+The main benefit of scope is security. That is, the variables can be accessed from only a certain area of the program. Using scope, we can avoid unintended modifications to the variables from other parts of the program.
+
+
+The scope also reduces the namespace collisions. That is, we can use the same variable names in different scopes.
+
+
+Types of Scope
+There are three types of scope in JavaScript — 1) Global Scope, 2) Function Scope, and, 3) Block Scope.
+
+
+ Global Scope
+Any variable that’s not inside any function or block (a pair of curly braces), is inside the global scope. The variables in global scope can be accessed from anywhere in the program. For example:
+
+var greeting = 'Hello World!';
+function greet() {
+  console.log(greeting);
+}
+// Prints 'Hello World!'
+greet();
+
+
+
+ Local Scope or Function Scope
+Variables declared inside a function is inside the local scope. They can only be accessed from within that function, that means they can’t be accessed from the outside code. For example:
+
+function greet() {
+  var greeting = 'Hello World!';
+  console.log(greeting);
+}
+// Prints 'Hello World!'
+greet();
+// Uncaught ReferenceError: greeting is not defined
+console.log(greeting);
+
+
+ES6 introduced let and const variables, unlike var variables, they can be scoped to the nearest pair of curly braces. That means, they can’t be accessed from outside that pair of curly braces. For example:
+
+{
+  let greeting = 'Hello World!';
+  var lang = 'English';
+  console.log(greeting); // Prints 'Hello World!'
+}
+// Prints 'English'
+console.log(lang);
+// Uncaught ReferenceError: greeting is not defined
+console.log(greeting);
+
+
+We can see that var variables can be used outside the block, that is, var variables are not block scoped.
+
+
+Scope Chain
+
+When a variable is used in JavaScript, the JavaScript engine will try to find the variable’s value in the current scope. If it could not find the variable, it will look into the outer scope and will continue to do so until it finds the variable or reaches global scope.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Web dev simplified - 
+
+4 scopes - global ,function /local , module scope , block scope
+
+scopes is just a piece of code where all your variables are defined 
+in it and those variables are only accessilbe inside that scope
+
+anything outside that scope does not have access to those variables
+
+
+we have two scripts - 
+<script scr="nonModuleScript.js" defer></script>
+<script src="script.js" type="module"></script>
+
+
+modules is a way to break up your code into various different files 
+and import them into one and another
+
+js breaks down its global scope and module scope into its own
+different scopes
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+####nonModuleScript.js
+const globalVar = "Global"     // it is in Global scope
+
+### script.js
+console.log(globalVar)    // Global
+
+so globalVar is in a nonModuleScript and it can be accessible globally
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+####moduleScript.js
+const moduleVar = "Module"
+
+export const exportedVar = "Exported"
+
+### script.js
+import {exportedVar} from './moduleScript.js'
+console.log(moduleVar)    // moduleVar is not defined
+
+console.log(exprotedVar)  //   Exported   
+
+
+Module Scope - if you are using modules and made a variables
+these will be accessilbe only within that module unless you have
+explicitly exported those variables
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+so we have seen the diff between the module scope and global scope
+
+
+most of the time you write code in modules so you don't have to 
+worry about global scope
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Web dev simplified - 
+
+JavaScript ES6 Modules
+
+the main idea of modules is to allowing you to import and export
+different sections of code from different files into other files
+which allows you to break apart your code into more smaller grained
+files which makes your code easier to understand
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,98 @@
+what is the difference between method and function in js
+
+In JavaScript, both methods and functions are used to define reusable pieces of code that can be called multiple times. However, there are some differences between the two:
+
+Functions are standalone blocks of code, whereas methods are functions that are part of an object. Functions can be defined anywhere in your code, and can be called with their name followed by parentheses. For example:
+
+function myFunction() {
+  // some code here
+}
+
+myFunction();
+
+Methods are always called on an object, and they have access to the object's properties. They are defined as functions that are attached to an object, using dot notation. For example:
+
+let myObject = {
+  myMethod: function() {
+    // some code here
+  }
+};
+
+myObject.myMethod();
+
+Functions can be passed as arguments to other functions. This is called higher-order function. For example:
+
+function myFunction(callback) {
+  // some code here
+  callback();
+}
+
+myFunction(function() {
+  console.log("callback function");
+});
+
+Methods cannot be passed as arguments to other functions, because they are bound to the object they belong to. However, you can pass the entire object as an argument, and then call the method on that object. For example:
+
+let myObject = {
+  myMethod: function() {
+    // some code here
+  }
+};
+
+function myFunction(object) {
+  object.myMethod();
+}
+
+myFunction(myObject);
+In summary, functions are standalone blocks of code, while methods are functions that belong to an object. Functions can be passed as arguments to other functions, while methods cannot.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+parseInt comes from which object ?
+
+parseInt() is a built-in function in JavaScript, and it is not a method of any object. It is defined in the global scope of JavaScript, which means that it can be accessed from anywhere in your code without the need to instantiate an object.
+
+However, parseInt() is a property of the global object, which means you can also access it as a property of the window object in a web browser or the global object in Node.js.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+so what are the built in functions in js
+
+JavaScript has many built-in functions that can be used directly in your code without the need to define them. Here are some of the most commonly used built-in functions in JavaScript:
+
+alert(): Displays an alert box with a message and an OK button.
+prompt(): Displays a dialog box that prompts the user for input.
+confirm(): Displays a dialog box with a message and OK and Cancel buttons.
+console.log(): Outputs a message to the browser console.
+setInterval(): Calls a function repeatedly with a specified time interval.
+setTimeout(): Calls a function after a specified delay.
+parseInt(): Converts a string to an integer.
+parseFloat(): Converts a string to a floating-point number.
+isNaN(): Determines whether a value is not a number.
+String(): Converts a value to a string.
+Number(): Converts a value to a number.
+Array(): Creates a new array.
+Object(): Creates a new object.
+Date(): Creates a new date object.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+so these functions come from window ? 
+
+In JavaScript, many built-in functions and objects are part of the global scope, which means they are available anywhere in your code without the need to instantiate an object.
+
+The global scope is associated with the window object in a web browser environment, which means that built-in functions and objects in JavaScript are often accessible as properties of the window object. For example, the alert() function is a global function in JavaScript, and you can access it as a property of the window object like this:
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+what are standard built in object in js
+JavaScript has several standard built-in objects that are available for use in any JavaScript program. Here are some of the most commonly used standard built-in objects in JavaScript:
+
+Object
+Array
+String
+Number
+Boolean
+Date
+Math
+RegExp
+Error
+Each of these objects has its own set of properties and methods that can be used to perform specific tasks or operations in a JavaScript 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

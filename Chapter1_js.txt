@@ -1,0 +1,845 @@
+April -05 - 2023
+Interview question and topics - 
+
+Async await
+Ajax
+fetch
+xmlhttprequest
+get post diff
+promises
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+AJAX - 
+Ajax stands for Asynchronous JavaScript and XML. It is a set of web development techniques that allows web pages to be updated asynchronously without the need to reload the entire page.
+
+With Ajax, web applications can send and receive data from a server in the background, without interrupting the user experience. This means that small pieces of data can be updated on a web page without having to refresh the whole page, making the application more responsive and dynamic.
+
+Ajax uses a combination of technologies such as HTML, CSS, JavaScript, and XML or JSON to create asynchronous requests between the client and server. These requests can be made using the XMLHttpRequest object in JavaScript, or more recently with the fetch API.
+
+Some popular examples of Ajax usage include Google Maps, where the map tiles are loaded in the background while the user navigates the map, and Facebook's newsfeed, where new posts and comments are added dynamically without the need for a page refresh.
+#######################################
+ example of Ajax using JavaScript and the XMLHttpRequest object:
+
+// create an XMLHttpRequest object
+var xhttp = new XMLHttpRequest();
+
+// define a callback function to handle the response
+xhttp.onreadystatechange = function() {
+  if (this.readyState == 4 && this.status == 200) {
+    document.getElementById("demo").innerHTML = this.responseText;
+  }
+};
+
+// open a GET request to a server-side resource
+xhttp.open("GET", "example.php", true);
+
+// send the request
+xhttp.send();
+###########################################
+
+To send data using the GET method, you can append the data as query parameters to the URL of the server-side resource.
+
+######################################################
+// create an XMLHttpRequest object
+var xhttp = new XMLHttpRequest();
+
+// define a callback function to handle the response
+xhttp.onreadystatechange = function() {
+  if (this.readyState == 4 && this.status == 200) {
+    document.getElementById("demo").innerHTML = this.responseText;
+  }
+};
+
+// define the data to be sent
+var name = "John";
+var age = 30;
+
+// create the URL with the data as query parameters
+var url = "example.php?name=" + name + "&age=" + age;
+
+// open a GET request to the server-side resource
+xhttp.open("GET", url, true);
+
+// send the request
+xhttp.send();
+
+#####################################################
+
+To send data using the POST method, you can use the send(string) method of the XMLHttpRequest object and include the data as the request body. Here's an example using JavaScript:
+
+
+#############################################
+// create an XMLHttpRequest object
+var xhttp = new XMLHttpRequest();
+
+// define a callback function to handle the response
+xhttp.onreadystatechange = function() {
+  if (this.readyState == 4 && this.status == 200) {
+    document.getElementById("demo").innerHTML = this.responseText;
+  }
+};
+
+// define the data to be sent
+var name = "John";
+var age = 30;
+var data = "name=" + encodeURIComponent(name) + "&age=" + encodeURIComponent(age);
+
+// open a POST request to the server-side resource
+xhttp.open("POST", "example.php", true);
+
+// set the content type header
+xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+// send the request with the data in the request body
+xhttp.send(data);
+
+############################################
+
+XMLHttpRequest Example
+When you type a character in the input field below, an XMLHttpRequest is sent to the server, and some name suggestions are returned (from the server)
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+XML (Extensible Markup Language) is a markup language used to structure and store data in a text format. 
+
+XML uses tags to define the structure of the data, with opening and closing tags to delineate the beginning and end of a section of data. Data is stored in elements within these tags, and attributes can be added to provide additional information about the data.
+
+Example - 
+###########
+<?xml version="1.0" encoding="UTF-8"?>
+<bookstore>
+  <book category="Fiction">
+    <title>The Great Gatsby</title>
+    <author>F. Scott Fitzgerald</author>
+    <price>9.99</price>
+  </book>
+  <book category="Non-Fiction">
+    <title>Thinking, Fast and Slow</title>
+    <author>Daniel Kahneman</author>
+    <price>12.99</price>
+  </book>
+</bookstore>
+#############
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+What is the difference between sending data from get and post 
+
+With GET, the data is sent as query parameters in the URL of the request. This means that the data is visible in the URL and can be bookmarked or shared. GET requests are generally used for retrieving data from the server, rather than sending data to the server.
+
+With POST, the data is sent in the body of the request, which is not visible in the URL. This means that POST requests are more secure than GET requests, as the data is not visible to others. POST requests are generally used for sending data to the server, such as submitting a form or updating a database.
+
+Summary :
+
+-GET sends data as query parameters in the URL, while POST sends data in the body of the request.
+
+-GET requests are generally used for retrieving data from the server, while POST requests are used for sending data to the server.
+
+-GET requests are less secure than POST requests, as the data is visible in the URL.
+
+-There is a limit to the amount of data that can be sent with GET, while there is no limit to the amount of data that can be sent with POST.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+While sending request using fetch can we select the methods get or post ?
+
+
+Yes, you can select the HTTP method (GET, POST, PUT, DELETE, etc.) when sending a request using the fetch() API. By default, fetch() sends a GET request, but you can specify a different method by passing an options object as the second argument to fetch().
+
+To send a POST request using fetch(), you can set the method option to "POST" and include any data to be sent in the body option. Here's an example
+################
+fetch('https://example.com/api/data', {
+  method: 'POST',
+  body: JSON.stringify({
+    name: 'John Doe',
+    age: 30
+  }),
+  headers: {
+    'Content-Type': 'application/json'
+  }
+})
+.then(response => response.json())
+.then(data => console.log(data))
+.catch(error => console.error(error));
+
+##################
+In this example, the fetch() function sends a POST request to https://example.com/api/data with the name and age data included in the request body. The Content-Type header is set to application/json to indicate that the request body is in JSON format.
+
+
+To send data with the GET method using the fetch() API, you can append the data to the URL as query parameters. Here's an example:  
+
+#######################
+fetch('https://example.com/api/data?name=John%20Doe&age=30')
+  .then(response => response.json())
+  .then(data => console.log(data))
+  .catch(error => console.error(error));
+
+#######################
+
+You can also construct the query string dynamically using the URLSearchParams API. Here's an example:
+##########
+const params = new URLSearchParams({
+  name: 'John Doe',
+  age: 30
+});
+
+fetch(`https://example.com/api/data?${params}`)
+  .then(response => response.json())
+  .then(data => console.log(data))
+  .catch(error => console.error(error));
+###########
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+What  are the different parts in HTTP request like body..
+In an HTTP request, there are several parts that make up the message, including:
+
+Request line: The first line of the request, which includes the HTTP method (e.g. GET, POST), the URI or URL of the requested resource, and the HTTP protocol version.
+
+Headers: Additional information about the request, such as the User-Agent that identifies the client making the request, the 
+Content-Type that specifies the format of the data in the request body, or the Authorization header that includes a token or credentials for authentication.
+
+Body (optional): Some requests may include a message body that contains additional data, such as form data, JSON data, or file uploads. The Content-Type header specifies the format of the data in the request body.
+
+Here's an example of an HTTP request message that includes all of these parts:
+##############
+POST /api/data HTTP/1.1
+Host: example.com
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.82 Safari/537.36
+Content-Type: application/json
+Authorization: Bearer 1234567890
+
+{
+  "name": "John Doe",
+  "age": 30,
+  "email": "john.doe@example.com"
+}
+################
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~`
+does the fetch method uses https or http to send request to server?
+
+The fetch() method itself does not determine whether the request is sent over HTTP or HTTPS. The protocol used for the request is determined by the URL used in the request.
+
+If the URL begins with "https://", then the request is sent over HTTPS (encrypted), whereas if the URL begins with "http://", then the request is sent over HTTP (unencrypted).
+
+By default, fetch() uses the same protocol as the page that initiated the request. For example, if the page is loaded over HTTPS, then fetch() requests will also use HTTPS by default. If the page is loaded over HTTP, then fetch() requests will use HTTP by default.
+
+However, you can also explicitly specify the protocol in the URL passed to fetch()  
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~`
+What is the difference between https and http
+
+HTTP (Hypertext Transfer Protocol) and HTTPS (HTTP Secure) are both protocols used for transferring data over the internet, but they differ in terms of security.
+
+In summary, HTTPS is more secure than HTTP because it encrypts data in transit and provides authentication, which helps protect against interception, tampering, and impersonation.
+
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+What is the fetch() API and how does it work?
+
+The fetch() API is a modern web standard for making network requests from a web page or application. It provides a more flexible and powerful alternative to traditional methods like XMLHttpRequest for fetching data from a server or API.
+
+fetch() uses Promises to handle asynchronous operations, which makes it easier to work with data that's returned from the server. It's also designed to be more intuitive and easy to use than other similar APIs.
+
+Here's a brief overview of how fetch() works:
+
+1. Create a request object: Use the Request constructor to create a new request object. This includes specifying the URL of the resource to fetch, as well as any additional options such as the request method, headers, and request body.
+
+2. Send the request: Pass the request object to the fetch() method, which sends the request to the server and returns a Promise that resolves with the server's response.
+
+3. Handle the response: Use the then() method on the Promise returned by fetch() to handle the server's response. This typically involves converting the response data to the desired format (e.g. JSON), checking for errors, and updating the UI or application state with the returned data.
+
+
+#################
+fetch('https://example.com/api/data')
+  .then(response => response.json())
+  .then(data => console.log(data))
+  .catch(error => console.error(error));
+
+##################
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+What can be retured from a then method?
+
+The value returned from a then() method can be a Promise or a non-Promise value. If the returned value is a Promise, the next then() method in the chain will wait for that Promise to resolve before continuing. If the returned value is a non-Promise value, the next then() method will be called immediately with that value.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+What fetch returns a Promise Object or Response Object ?
+
+The fetch() method returns a Promise object that resolves to a Response object when the request is successful. The Response object represents the response to the HTTP request made by fetch().
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+How do you handle errors when using fetch()?
+When using fetch() to make an HTTP request, there are several ways to handle errors that may occur during the request process. One way is to use the catch() method of the returned Promise object to handle any errors that occur.
+
+############
+fetch('https://example.com/api/data')
+  .then(response => {
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    return response.json();
+  })
+  .then(data => console.log(data))
+  .catch(error => console.error('Error:', error));
+
+############
+
+In this example, the then() method checks if the HTTP response was successful using the ok property of the Response object. If the response is not ok, it throws an Error object with a custom message. The catch() method is used to handle the error and log a message to the console.
+
+You can also use the Promise.reject() method to explicitly reject the Promise with an error message:
+##############
+fetch('https://example.com/api/data')
+  .then(response => {
+    if (!response.ok) {
+      return Promise.reject('Network response was not ok');
+    }
+    return response.json();
+  })
+  .then(data => console.log(data))
+  .catch(error => console.error('Error:', error));
+
+##############
+
+It's also possible to use the finally() method to execute code that should be run regardless of whether the Promise is resolved or rejected:
+#############
+fetch('https://example.com/api/data')
+  .then(response => {
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    return response.json();
+  })
+  .then(data => console.log(data))
+  .catch(error => console.error('Error:', error))
+  .finally(() => console.log('Request complete'));
+
+###########
+
+You can use a try...catch block to handle errors that may occur when using fetch().
+
+#######
+try {
+  const response = await fetch('https://example.com/api/data');
+  if (!response.ok) {
+    throw new Error('Network response was not ok');
+  }
+  const data = await response.json();
+  console.log(data);
+} catch (error) {
+  console.error('Error:', error);
+}
+#####
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+April -06 - 2023
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+What is async await ? 
+
+async/await is a way to write asynchronous code in JavaScript that is more readable and easier to reason about than traditional callback-based or promise-based code. It was introduced in ECMAScript 2017 and has since become a popular way to write asynchronous code in JavaScript.
+
+async/await allows you to write asynchronous code that looks more like synchronous code, without blocking the execution of the main thread. Here's a basic example:
+
+############
+async function fetchData() {
+  const response = await fetch('https://api.example.com/data');
+  const data = await response.json();
+  return data;
+}
+
+fetchData().then(data => console.log(data));
+#############
+
+In this example, fetchData() is an async function that makes an HTTP request using the fetch() API and returns the parsed JSON data. The await keyword is used to wait for the response to be returned from the server before continuing to execute the function. The parsed data is then returned from the function and logged to the console using the then() method.
+
+Here are some key points to keep in mind when using async/await:
+
+1.async functions always return a promise. If a value is returned from the function, the promise will be resolved with that value. If an error occurs during the execution of the function, the promise will be rejected with the error.
+
+2.await can only be used inside an async function. It is used to wait for a promise to resolve before continuing to execute the function. If the promise is rejected, an error will be thrown.
+
+3.If an error is thrown inside an async function, it will be caught by the nearest try...catch block, or it will be returned as a rejected promise.
+
+4.await can be used with any promise-based API, not just the fetch() API. This includes APIs like setTimeout() and Promise.all().
+
+##########
+async function delayedHello() {
+  console.log('Hello');
+  await new Promise(resolve => setTimeout(resolve, 1000));
+  console.log('World');
+}
+
+delayedHello();
+
+#############
+
+
+In this example, delayedHello() is an async function that logs "Hello" to the console, waits for 1 second using setTimeout() and a Promise, and then logs "World" to the console. Because the function is asynchronous, the program will not block while waiting for the timeout to complete.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The await keyword is used to wait for the response to be returned from the server before continuing to execute the function , does it means next line will only execute if promise and resolved or rejected ?
+
+ Yes, that's correct. When the await keyword is used in an async function, it suspends the execution of the function until the promise that it is waiting for is resolved or rejected. This means that the next line of code will not be executed until the promise is resolved or rejected.
+
+In the case of fetch(), the await keyword is used to wait for the Response object to be returned from the server. Once the Response object is returned, the code execution continues with the next line of code.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Explain about the Promise constructor ?
+
+The Promise constructor is a built-in JavaScript class that allows you to create and manage promises. A promise is an object that represents the eventual completion or failure of an asynchronous operation and allows you to handle the result of that operation when it becomes available.
+
+The Promise constructor takes a single argument, which is a function that takes two parameters: resolve and reject. This function is called the **executor function**, and it is responsible for starting the asynchronous operation and resolving or rejecting the promise based on the outcome of that operation
+ 
+##########
+const myPromise = new Promise((resolve, reject) => {
+  // Start an asynchronous operation
+  setTimeout(() => {
+    const randomNumber = Math.random();
+    if (randomNumber > 0.5) {
+      resolve(randomNumber); // Resolve the promise with the random number
+    } else {
+      reject(new Error('The number is too low')); // Reject the promise with an error object
+    }
+  }, 1000);
+});
+################
+Once a promise is created, you can use the then() and catch() methods to handle the resolution or rejection of the promise. The then() method is called when the promise is resolved, and it takes a callback function that receives the resolved value as its argument. The catch() method is called when the promise is rejected, and it takes a callback function that receives the rejection reason as its argument.
+
+###
+myPromise
+  .then((result) => {
+    console.log(`The result is ${result}`);
+  })
+  .catch((error) => {
+    console.error(`An error occurred: ${error.message}`);
+  });
+####
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+does the executor function has optional parameters
+
+The executor function in the Promise constructor has two parameters: resolve and reject. These parameters are not optional and must be defined in the function signature.
+
+The resolve function is used to fulfill the promise with a value, while the reject function is used to reject the promise with a reason (typically an Error object). It is important to call one of these functions within the executor function, otherwise the promise will remain in a pending state indefinitely.
+
+#######
+
+const myPromise = new Promise((resolve, reject) => {
+  const randomNumber = Math.random();
+  if (randomNumber > 0.5) {
+    resolve(randomNumber); // Resolve the promise with the random number
+  } else {
+    reject(new Error('The number is too low')); // Reject the promise with an error object
+  }
+});
+#####
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Any benefit then promise?
+Yes, there are several benefits of using async/await over .then/.catch:
+
+Simplicity: async/await makes asynchronous code look more like synchronous code, which makes it easier to read and understand. With .then/.catch, you have to chain multiple callbacks together, which can make the code harder to follow and debug.
+
+Error handling: With async/await, you can use try/catch blocks to handle errors. This makes it easier to handle errors in a more centralized and concise way, rather than having to define error handlers for each .then callback.
+
+Flow control: With async/await, you can control the flow of execution more easily by using if/else statements and loops. With .then/.catch, you have to chain multiple callbacks together, which can make it harder to control the flow of execution.
+
+Debugging: With async/await, you can set breakpoints and step through the code in a more natural way, since the code looks more like synchronous code. With .then/.catch, it can be harder to debug because the code is spread out over multiple callbacks.
+
+Overall, async/await provides a cleaner, more concise, and easier-to-understand syntax for handling asynchronous operations in JavaScript
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+methods of the Promise class grouped by their type ?
+
+Static methods:
+
+Promise.all()
+Promise.allSettled()
+Promise.race()
+Promise.reject()
+Promise.resolve()
+
+~~~~~~
+Instance methods:
+
+promise.catch()
+promise.finally()
+promise.then()
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Promise.all(iterable): Returns a promise that resolves when all of the promises in the iterable have resolved, or rejects with the reason of the first promise that rejects.
+
+Promise.allSettled(iterable): Returns a promise that resolves when all of the promises in the iterable have settled (either resolved or rejected).
+
+Promise.race(iterable): Returns a promise that resolves or rejects as soon as one of the promises in the iterable resolves or rejects.
+
+Promise.reject(reason): Returns a promise that is rejected with the given reason.
+
+Promise.resolve(value): Returns a promise that is resolved with the given value.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+as we use then method and attach a callback function but where is then(onFullfilled,onRejected) ?
+
+The then method of the Promise class takes two optional callback functions as arguments, one for handling the resolved value (onFullfilled), and another for handling the rejection reason (onRejected).
+
+######
+const promise = new Promise((resolve, reject) => {
+  // do some asynchronous operation
+  if (/* operation is successful */) {
+    resolve('Success!');
+  } else {
+    reject('Error!');
+  }
+});
+
+promise.then(
+  (value) => {
+    // handle the resolved value
+    console.log(value);
+  },
+  (reason) => {
+    // handle the rejection reason
+    console.error(reason);
+  }
+);
+
+########
+
+It's important to note that if the onRejected function is not provided, the rejection reason will be propagated to the next catch block in the chain. Similarly, if the onFulfilled function does not return a value, the next then block will receive undefined as its input.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+What is promise.All  and where it is used?
+
+The Promise.all() method is a utility function that takes an array (or an iterable) of promises as input, and returns a new promise that resolves with an array of the resolved values of each input promise, in the order they were provided as input.
+
+########
+const promises = [
+  Promise.resolve(1),
+  Promise.resolve(2),
+  Promise.resolve(3),
+];
+
+Promise.all(promises)
+  .then((results) => {
+    console.log(results); // [1, 2, 3]
+  })
+  .catch((error) => {
+    console.error(error);
+  });
+
+#######
+Promise.all() is often used when we need to wait for multiple asynchronous operations to complete before continuing with our code. For example, if we need to fetch data from multiple APIs and combine them into a single response, we can use Promise.all() to wait for all of the API requests to complete and then merge the results.
+
+It's important to note that if any of the input promises are rejected, the returned promise from Promise.all() will also be rejected with the reason of the first rejected promise. To handle this case, we can attach a catch callback function to the returned promise to handle any errors that occur during the operation.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Question 1 - 
+
+async function inc(x){
+    x = x + await 1;
+    return  x;
+} 
+
+async function increment(x){
+    x = x + 1;
+    return x;
+}
+
+inc(1)
+.then(function(x){
+    increment(x)
+    .then(function(x){
+        console.log(x);
+    })
+})
+
+Output = 3
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Question 2
+let p = new Promise(function(resolve,reject){
+    reject(new Error("some error"));
+    setTimeout(function(){
+        reject(new Error("some error11"));
+    },1000)
+    reject(new Error("some error1"))
+}) 
+
+p.then(null,function(err){
+    console.log(1);
+    console.log(err);
+
+})
+.catch(function(err){
+    console.log(2);
+    console.log(err);
+})
+
+Output - 
+//1 
+//Error: some error
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Question -3
+async function f1(){
+    console.log(1);
+}
+
+async function f1(){
+    console.log(2);
+}
+ 
+
+console.log(3);
+f1();
+console.log(1);
+f2();
+
+async function f2(){
+    console.log("Go!");
+}
+
+output 
+3
+2
+1 
+Go
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+what is ()() in js
+
+When you see ()() in JavaScript code, it typically indicates that a function is being called immediately after it is defined or returned. This is known as an immediately-invoked function expression (IIFE). An IIFE is a function expression that is defined and executed immediately after it is created, without being assigned to a variable or being named. It is commonly used to create a private scope for variables and functions, preventing them from polluting the global scope.
+
+############
+(function() {
+  // Code to be executed immediately
+})();
+
+##############
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Question -4 
+
+function resolveAfterNSeconds(n,x){
+    return  new Promise(resolve =>{
+        setTimeout(()=>{
+            resolve(x);
+        },n)
+    })
+
+
+}
+
+(function(){
+    let a = resolveAfterNSeconds(1000,1)
+
+    a.then(async function(x){
+        let y = await resolveAfterNSeconds(2000,2)
+        let z = await resolveAfterNSeconds(1000,3)
+        let p = resolveAfterNSeconds(2000,4)
+        let q = resolveAfterNSeconds(1000,5)
+        console.log(x+y+z+await p + await q);
+    })
+})()
+
+//Total time - 1 + 2 + 1 + 2 = 6
+// output - 1+ 2 + 3 + 4 + 5 = 15
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+var a = 10;
+console.log('Line number 2',a);
+function fn(){
+    console.log('line nuber 4',a)   // Imp not 10 but, undefined(hoist)
+    var a = 20;
+    a++;
+    console.log("line number 7",a);
+    if(a){
+        var a = 30;
+        a++;
+        console.log("line number 11",a);
+    }
+    console.log("line number 13",a)
+}
+
+fn();
+console.log("line number 2",a);
+
+
+//10
+//undined  
+//21
+
+//31
+///31
+//10
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+let letFruit = "orange";
+var varFruit = "orange";
+console.log("leftFruit",letFruit, "varFruit",varFruit)
+{
+    let letFruit = "apple";
+    var varFruit = "apple";
+    console.log("leftFruit",letFruit,"varFruit",varFruit)
+
+}
+console.log("leftFruit",letFruit, "varFruit",varFruit)
+
+//leftFruit orange  varFruit orange
+//leftFruit apple   varFruit apple
+//leftFruit orange  varFruit apple
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+function getData(){
+    setTimeout(()=>{
+        return 1;
+    },3000)
+    //return 3; 
+}
+
+
+async function fun(){
+    const res  = await getData()
+    console.log(res, 'are you wating  for getdata');
+}
+fun();
+
+
+output = undefined
+as setTimeout works asyncronously and getData is not returing
+anything so res will be undefined.
+
+
+
+
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+no parameter are not mandatory in the executor fun, it will run
+if we pass resolve only as the parameter
+
+try awiat in front of any funciton 
+
+If you use the await keyword in front of a function that returns a non-promise value, the value will be automatically wrapped in a resolved promise. This behavior is often referred to as "wrapping a value in a promise".
+
+######
+function getValue() {
+  return 42;
+}
+
+async function processData() {
+  const value = await getValue();
+  console.log(value); // 42
+}
+
+processData();
+#####
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+can we write await in front of any function
+
+No, we cannot use await in front of any function. We can only use await in front of functions that return a promise. When we use await with a function that returns a non-promise value, the await keyword will not have any effect and the code will continue to execute synchronously without waiting for any asynchronous operation to complete.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+response.json() returns a Promise ?
+
+function fetchData() {
+  return fetch('https://example.com/data');
+}
+
+async function processData() {
+  const response = await fetchData();
+  const data = await response.json();
+  console.log(data);
+}
+
+Yes, the json() method of the Response object in JavaScript returns a Promise that resolves with the JSON representation of the response body. The json() method reads the body of the response stream and parses it as JSON. It returns another Promise that resolves with the parsed JSON data.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+What is Object and class 
+
+In JavaScript, an object is a collection of key-value pairs, where the key is a string (or symbol) and the value can be of any data type, such as a string, number, boolean, function, or another object. Objects are used to represent real-world entities and can have properties (state) and methods (behavior).
+
+On the other hand, a class is a blueprint for creating objects that share similar properties and methods. It defines the characteristics of an object, but does not create the object itself. To create an object from a class, we use the new keyword followed by the name of the class.
+
+class Car {
+  constructor(make, model, year) {
+    this.make = make;
+    this.model = model;
+    this.year = year;
+  }
+  
+  startEngine() {
+    console.log("Engine started.");
+  }
+  
+  stopEngine() {
+    console.log("Engine stopped.");
+  }
+}
+Here, Car is a class that has three properties make, model, and year, and two methods startEngine() and stopEngine(). To create an object from this class, we can do:
+
+
+const myCar = new Car("Toyota", "Camry", 2021);
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Why you learnt react why not angular or something else ?
+
+Popularity: React is currently one of the most popular JavaScript frameworks, with a large and active community. Its popularity is reflected in the number of job opportunities available for React developers.
+
+Learning curve: React has a relatively low learning curve, especially when compared to other popular frameworks like Angular. Its simple syntax and component-based structure make it easy to understand and use.
+
+Its component-based architecture: One of the biggest reasons I chose React is because of its component-based architecture. I believe that building web applications as a set of smaller, reusable components makes it easier to reason about the codebase and maintain the application over time. React's architecture encourages this approach, and I think it's a very powerful way to build modern web applications.
+
+Better performance with Virtual DOM: I was impressed by React's Virtual DOM approach, which allows the framework to optimize the rendering process and improve the overall performance of web applications. I wanted to learn more about how React uses this technique to create fast, responsive user interfaces.
+
+Flexibility: React is a flexible framework that can be used to build a wide range of applications, from simple single-page applications to complex enterprise-level applications.
+
+Performance: React is known for its fast rendering performance, which makes it a popular choice for applications that require high performance, such as real-time applications.
+
+Support: React is developed and maintained by Facebook, which means that it has a strong backing and is constantly being updated with new features and bug fixes.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Here are some common interview questions on the fetch() API:
+
+What is the fetch() API and how does it work?
+How do you handle errors when using fetch()?
+What is the difference between fetch() and XMLHttpRequest (XHR)?
+How do you send data with the fetch() API?
+What is the difference between GET and POST requests, and how do you use them with fetch()?
+How do you set headers when using fetch()?
+How do you parse the response from fetch()?
+What is the purpose of the Response object in fetch(), and how do you use it?
+How do you handle cross-origin requests with fetch()?
+How do you cancel a fetch() request?
+What is the purpose of the AbortController and AbortSignal interfaces in fetch(), and how do you use them?
+How do you work with the FormData API when using fetch() to upload files?
+What are the limitations of fetch() compared to XHR?
+How do you use fetch() with async/await?
+What are the best practices for using fetch() in modern web development?
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+What is the difference between fetch() and XMLHttpRequest (XHR)?
+
+Simplicity: fetch() has a simpler syntax than XHR, making it easier to use.
+
+Promises: fetch() uses Promises natively, making it easier to handle asynchronous code.
+
+Response handling: With fetch(), the response object returned is a stream that can only be read once. With XHR, you can read the response multiple times, as it is stored in memory.
+
+Cross-Origin Requests (CORS): fetch() automatically follows CORS rules and will reject any response that violates them. XHR requires manual configuration to handle CORS requests.
+
+Browser compatibility: fetch() is a relatively new API and may not be supported in older browsers. XHR has been around for longer and is widely supported.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+the response object returned is a stream that can only be read once, explain more clearly
+
+When a request is made using fetch(), the response object that is returned is a stream, which is a sequence of data that is not necessarily available all at once. It is like a pipeline that flows continuously and carries data in chunks. In other words, the response is not delivered to the client all at once, but rather it is received in small pieces or chunks.
+
+Since the response object is a stream, it can be read only once. When we call the response.json() method or any other methods that read the body of the response, the stream is consumed, and the data is extracted. Once the stream is consumed, it cannot be read again
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
