@@ -1,0 +1,258 @@
+//===================================
+//===================================
+//===================================
+
+//clone an object
+let user = {
+  name: "Road",
+  age:244,
+};
+
+//11111111111
+// const objClone = Object.assign({}, user);
+// objClone.name = "Piyush";
+// console.log(user, objClone);
+
+//22222222222
+// const objClone = JSON.parse(JSON.stringify(user));
+// objClone.name = "Piyush";
+// console.log(objClone)
+
+//3333333333333
+const objClone = {...user};
+objClone.name = "pra";
+console.log(objClone)
+
+
+//===================================
+
+// function changeAgeAndReference(person){
+//   person.age = 25;
+//   person = {
+//     name: "John",
+//     age: 50,
+//   };
+//   return person;
+// }
+
+// const personObj1 = {
+//   name: "Alex",
+//   age: 30,
+// }
+
+// const personObj2 = changeAgeAndReference(personObj1);
+// console.log(personObj1)
+// console.log(personObj2)
+
+//===================================
+
+// const value = {number:10};
+
+// // const xx = {...value};
+// // console.log(xx);
+
+// const multiply = (x = { ...value}) => {
+//   console.log((x.number *= 2))
+// }
+// // multiply();
+// multiply(value);
+// multiply(value);
+
+
+//===================================
+// CASE 1
+// let person = { name: "Lydia"};
+// const members = [person];
+// person = null;
+// console.log(members);
+
+// CASE 2
+// let person = { name: "Lydia"};
+// const members = [person];
+// person.name = null;
+// console.log(members)
+
+//===================================
+
+// console.log({a:1} == {a: 1});
+// console.log({a:1} === {a: 1});
+
+//===================================
+
+// let c = { greeting: "Heys!!"};
+// let d;
+
+// d = c;
+// c.greeting = "Hello";
+// console.log(d.greeting);
+
+//===================================
+
+// function getItems(fruitList, favoriteFruit, ...args){
+//   return [...fruitList, ...args, favoriteFruit];
+// }
+// console.log(getItems(["banana", "apple"], "pear", "orange"))
+
+//===================================
+
+// let user = {
+//   name: "Piyush",
+//   age: 24,
+//   fullName: {
+//     first: "P",
+//     last: "Lodhi",
+//   }
+// };
+
+// const {fullName:{first, last}} = user;
+// console.log(last)
+
+// const name = "Roadside Coder";
+// const { name: myName } = user;
+// console.log(myName);
+
+//===================================
+
+// let user = {
+//   name: "Prabhat",
+//   age: 24,
+// };
+
+// const { name, age } = user;
+// console.log(age)
+
+//===================================
+
+// const shape = {
+//   radius:10,
+//   diameter(){
+//     return this.radius * 2;
+//   },
+//   perimeter: ()=> 2 * Math.PI * this.radius,
+// };
+// console.log(shape.diameter())
+// console.log(shape.perimeter())
+
+//===================================
+
+// const setting = {
+//   username: "Piyush",
+//   level:19,
+//   health:90,
+// };
+
+// const data = JSON.stringify(setting, ["level", "health"]);
+// console.log(data);
+
+//===================================
+
+// const user = {name: "Lydia", age:21};
+// const admin = { admin:true, ...user};
+
+// console.log(admin)
+
+//===================================
+
+// console.log([..."kokoko"])
+
+// ==================================
+
+// const user = {
+//   name: "Piyus",
+//   age: 24
+// };
+
+// const ss = JSON.stringify(user);
+// console.log(JSON.parse(ss))
+// console.log(typeof JSON.parse(ss))
+
+// console.log(typeof user);
+// console.log(typeof JSON.stringify(user))
+
+
+// ==================================
+
+
+// const a = {};
+// const b = { key: 'b'}
+// const c = { key: 'c'}
+
+// a[b] = 123;
+// a[c] = 453;
+
+// console.log(a[b]);
+// console.log(JSON.(a)
+
+// ==================================
+
+// let nums = {
+//   a:100,
+//   b:200,
+//   title: "My nums"
+// }
+
+// multiplyByTwo(nums);
+
+// function multiplyByTwo(obj){
+//   for (key in obj){
+//     if (typeof obj[key] === "number"){
+//       obj[key] = obj[key] * 2;
+//     }
+//   }
+// }
+// console.log(nums)
+
+// ==================================
+
+// const user = {
+//   name: "Roadside coder",
+//   age:24,
+//   isTotallyAwesome: true,
+// };
+
+// for (key in user){
+//   console.log(user[key])
+// }
+
+
+// ==================================
+
+// const property = "firstname";
+// const name = "Piyush Agarwal";
+
+// const user = {
+//   [property]: name,
+// }
+
+// console.log(user)
+
+// ==================================
+
+// const user = {
+//   name: "p",
+//   age:24,
+//   "ko ko": "ko"
+// }
+// delete user["ko ko"];
+// console.log(user)
+// console.log(user["ko ko"]);
+
+// ==================================
+
+// const func = (function (a){
+//   delete a;
+//   return a;
+// })(5);
+// console.log(func)
+
+// ==================================
+
+// const user = {
+//   name: "p",
+//   age:24
+// }
+
+// user.name = "lodhi";
+// delete user.age
+// console.log(user)
+// console.log(user.name)
